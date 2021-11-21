@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ysh.logfinder.trace.TraceStatus;
 import ysh.logfinder.trace.logtrace.LogTrace;
+import ysh.logfinder.trace.template.AbstractTemplate;
 
 @RestController
 //@RestController = @Controller + @ResponseBody
@@ -16,19 +17,15 @@ public class OrderControllerV4 {
 
     @GetMapping("/v4/request")
     public String request(String itemId){
-
-        TraceStatus status = null;
-
-        try{
-            status = trace.begin("OrderController.request()");
-            orderService.orderItem(itemId);
-            trace.end(status);
-        }catch(Exception e){
-            trace.exception(status,e);
-            throw e;//예외를 꼭 다시 던져주어야 한다.
-        }
-
-        return "ok";
+        AbstractTemplate<String> template = new AbstractTemplate<String>(trace) {
+            @Override
+            protected String call() {
+                orderService.orderItem(itemId);
+                return "ok";
+            }
+        };
+        String execute = template.execute("OrderController.request()");
+        return execute;
     }
 
 }
