@@ -10,6 +10,8 @@ import ysh.logfinder.trace.template.code.AbstractTemplate;
 import ysh.logfinder.trace.template.code.SubClassLogic1;
 import ysh.logfinder.trace.template.code.SubClassLogic2;
 
+import javax.naming.Context;
+
 @Slf4j
 public class TemplateMethodTest {
     @Test
@@ -85,4 +87,54 @@ public class TemplateMethodTest {
         contextV2.execute();
     }
 
+
+    @Test
+    void strategyV2(){
+        Strategy strategyLogic1 = new Strategy() {
+            @Override
+            public void call() {
+                log.info("비지니스 로직1 실행");
+            }
+        };
+        ContextV1 context1 = new ContextV1(strategyLogic1);
+        log.info("strategyLogic ={}",strategyLogic1.getClass());
+        context1.execute();
+
+        Strategy strategyLogic2 = new Strategy() {
+            @Override
+            public void call() {
+                log.info("비지니스 로직2 실행");
+            }
+        };
+        ContextV1 context2 = new ContextV1(strategyLogic1);
+        log.info("strategyLogic ={}",strategyLogic1.getClass());
+        context2.execute();
+    }
+    @Test
+    void strategyV3(){
+        ContextV1 context1 = new ContextV1(new Strategy() {
+            @Override
+            public void call() {
+                log.info("비지니스 로직1 실행");
+            }
+        });
+        context1.execute();
+
+        ContextV1 context2 = new ContextV1(new Strategy() {
+            @Override
+            public void call() {
+                log.info("비지니스 로직2 실행");
+            }
+        });
+        context2.execute();
+    }
+
+    @Test
+    void strategyV4(){
+        ContextV1 context1 = new ContextV1(() -> log.info("비지니스 로직1 실행"));
+        context1.execute();
+
+        ContextV1 context2 = new ContextV1(() -> log.info("비지니스 로직2 실행"));
+        context2.execute();
+    }
 }
