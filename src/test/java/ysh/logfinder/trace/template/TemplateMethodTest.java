@@ -2,6 +2,10 @@ package ysh.logfinder.trace.template;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import ysh.logfinder.trace.strategy.code.strategy.ContextV1;
+import ysh.logfinder.trace.strategy.code.strategy.Strategy;
+import ysh.logfinder.trace.strategy.code.strategy.StrategyLogic1;
+import ysh.logfinder.trace.strategy.code.strategy.StrategyLogic2;
 import ysh.logfinder.trace.template.code.AbstractTemplate;
 import ysh.logfinder.trace.template.code.SubClassLogic1;
 import ysh.logfinder.trace.template.code.SubClassLogic2;
@@ -65,6 +69,20 @@ public class TemplateMethodTest {
         };
         log.info("클래스 이름2={}",template2.getClass());
         template2.execute();
+    }
+
+    /**
+     * 전략 패턴 사용
+     */
+    @Test
+    void strategyV1(){
+        StrategyLogic1 strategyLogic1 = new StrategyLogic1();
+        ContextV1 contextV1 = new ContextV1(strategyLogic1);
+        contextV1.execute();
+
+        StrategyLogic2 strategyLogic2 = new StrategyLogic2();
+        ContextV1 contextV2 = new ContextV1(strategyLogic2);
+        contextV2.execute();
     }
 
 }
