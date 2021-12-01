@@ -1,4 +1,4 @@
-package ysh.logfinder.proxy.app.v1;
+package ysh.proxy.proxy.app.v1;
 
 public class OrderServiceV1Impl implements OrderService1{
     private final OrderRepositoryV1 orderRepositoryV1;
