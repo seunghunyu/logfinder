@@ -1,5 +1,8 @@
 package ysh.proxy.proxy.app.v3;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class OrderServiceV3 {
     private final OrderRepositoryV3 orderRepositoryV3;
 
