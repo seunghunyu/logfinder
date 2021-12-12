@@ -1,5 +1,8 @@
 package ysh.proxy.pureproxy.proxy.code;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class CacheProxy implements Subject{
     private Subject target;
     private String cacheValue;
@@ -9,6 +12,10 @@ public class CacheProxy implements Subject{
     }
     @Override
     public String operation() {
-        return null;
+        log.info("프록시호출");
+        if(cacheValue == null){
+            cacheValue = target.operation();
+        }
+        return cacheValue;
     }
 }
