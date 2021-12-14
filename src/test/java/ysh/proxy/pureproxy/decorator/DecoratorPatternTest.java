@@ -2,10 +2,7 @@ package ysh.proxy.pureproxy.decorator;
 
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import ysh.proxy.pureproxy.decorator.code.Component;
-import ysh.proxy.pureproxy.decorator.code.DecoratorPatternClient;
-import ysh.proxy.pureproxy.decorator.code.MessageDecorator;
-import ysh.proxy.pureproxy.decorator.code.RealComponent;
+import ysh.proxy.pureproxy.decorator.code.*;
 
 @Slf4j
 public class DecoratorPatternTest {
@@ -21,6 +18,15 @@ public class DecoratorPatternTest {
         Component realComponent = new RealComponent();
         Component messageDecorator = new MessageDecorator(realComponent);
         DecoratorPatternClient client = new DecoratorPatternClient(messageDecorator);
+        client.execute();
+    }
+
+    @Test
+    void decorator2(){
+        Component realComponent = new RealComponent();
+        Component messageDecorator = new MessageDecorator(realComponent);
+        Component timeDecorator = new TimeDecorator(messageDecorator);
+        DecoratorPatternClient client = new DecoratorPatternClient(timeDecorator);
         client.execute();
     }
 
