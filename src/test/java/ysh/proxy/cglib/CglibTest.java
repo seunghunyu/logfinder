@@ -19,7 +19,7 @@ public class CglibTest {
 
         log.info("targetClass={}", target.getClass());
         log.info("proxyClass={}", target.getClass());
-
+        log.info("cglib 호출");
         proxy.call();
     }
 
