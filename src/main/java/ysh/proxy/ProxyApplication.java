@@ -8,13 +8,18 @@ import ysh.proxy.proxy.config.AppV1Config;
 import ysh.proxy.proxy.config.AppV2Config;
 import ysh.proxy.proxy.config.v1_proxy.ConcreteProxyConfig;
 import ysh.proxy.proxy.config.v2_dynamicproxy.DynamicProxyFilterConfig;
+import ysh.proxy.proxy.config.v3_proxyFactory.ProxyFactoryConfigV1;
+import ysh.proxy.proxy.config.v3_proxyFactory.ProxyFactoryConfigV2;
 
 //@Import(AppV1Config.class)
 //@Import(AppV2Config.class)
 //@Import({AppV1Config.class, AppV2Config.class})
 //@Import(ConcreteProxyConfig.class)
 //@Import(DynamicProxyBasicConfig.class)
-@Import(DynamicProxyFilterConfig.class)
+//@Import(DynamicProxyFilterConfig.class)
+//@Import(ProxyFactoryConfigV1.class)
+@Import(ProxyFactoryConfigV2.class)
+
 @SpringBootApplication(scanBasePackages = "ysh.proxy.app") //주의
 public class ProxyApplication {
     public static void main(String[] args) {
