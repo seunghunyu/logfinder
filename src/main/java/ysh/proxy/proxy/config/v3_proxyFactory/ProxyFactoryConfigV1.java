@@ -49,7 +49,7 @@ public class ProxyFactoryConfigV1 {
         //pointcut
         NameMatchMethodPointcut pointcut = new NameMatchMethodPointcut();
         pointcut.setMappedNames("request*","order*","save*");
-        //adivce
+        //advice
         LogTraceAdvice advice = new LogTraceAdvice(logTrace);
 
         return new DefaultPointcutAdvisor(pointcut,advice);
