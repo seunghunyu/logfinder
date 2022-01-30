@@ -1,6 +1,7 @@
 package ysh.proxy.proxy.config.v5_autoproxy;
 
 import org.springframework.aop.Advisor;
+import org.springframework.aop.aspectj.AspectJExpressionPointcut;
 import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.aop.support.NameMatchMethodPointcut;
 import org.springframework.context.annotation.Bean;
@@ -22,6 +23,16 @@ public class AutoProxyConfig {
         pointcut.setMappedNames("request*", "order*", "save*");
         //advice
         LogTraceAdvice advice = new LogTraceAdvice(logTrace);
+        return new DefaultPointcutAdvisor(pointcut, advice);
+    }
+
+    @Bean
+    public Advisor advisor2(LogTrace logTrace){
+        //pointcut
+        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
+        pointcut.setExpression("execution(* ysh.proxy.app..*(..))");
+        LogTraceAdvice advice = new LogTraceAdvice(logTrace);
+        //advisor = pointcut + advice
         return new DefaultPointcutAdvisor(pointcut, advice);
     }
 }
