@@ -16,7 +16,7 @@ import ysh.proxy.proxy.config.v3_proxyFactory.advice.LogTraceAdvice;
 @Import({AppV1Config.class, AppV2Config.class})
 public class AutoProxyConfig {
 
-    @Bean
+    //@Bean
     public Advisor advisor1(LogTrace logTrace){
         //pointcut
         NameMatchMethodPointcut pointcut = new NameMatchMethodPointcut();
@@ -26,11 +26,20 @@ public class AutoProxyConfig {
         return new DefaultPointcutAdvisor(pointcut, advice);
     }
 
-    @Bean
+    //@Bean
     public Advisor advisor2(LogTrace logTrace){
         //pointcut
         AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
         pointcut.setExpression("execution(* ysh.proxy.app..*(..))");
+        LogTraceAdvice advice = new LogTraceAdvice(logTrace);
+        //advisor = pointcut + advice
+        return new DefaultPointcutAdvisor(pointcut, advice);
+    }
+    @Bean
+    public Advisor advisor3(LogTrace logTrace){
+        //pointcut
+        AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
+        pointcut.setExpression("execution(* ysh.proxy.app..*(..)) && !execution(* ysh.proxy.app..noLog(..))");
         LogTraceAdvice advice = new LogTraceAdvice(logTrace);
         //advisor = pointcut + advice
         return new DefaultPointcutAdvisor(pointcut, advice);
