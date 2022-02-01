@@ -2,6 +2,7 @@ package ysh.logfinder;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
 import ysh.logfinder.trace.logtrace.LogTrace;
 import ysh.logfinder.trace.logtrace.ThreadLocalLogTrace;
