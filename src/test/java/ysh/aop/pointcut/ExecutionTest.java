@@ -9,6 +9,8 @@ import ysh.aop.order.aop.member.MemberServiceImpl;
 
 import java.lang.reflect.Method;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 @Slf4j
 public class ExecutionTest {
     AspectJExpressionPointcut pointcut = new AspectJExpressionPointcut();
@@ -27,7 +29,54 @@ public class ExecutionTest {
     @Test
     void exactMatch(){
         pointcut.setExpression("execution(public String ysh.aop.member.MemberServiceImpl.hello(String))");
-        Assertions.assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+        assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
     }
 
+    @Test
+    void allMatch(){
+        pointcut.setExpression("execution(* *(..))");
+        assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+    }
+
+    @Test
+    void nameMatch(){
+        pointcut.setExpression("execution(* ysh(..))");
+        assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+    }
+
+    @Test
+    void nameMatchStar1(){
+        pointcut.setExpression("execution(* ys*(..))");
+        assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+    }
+
+    @Test
+    void nameMatchStar2(){
+        pointcut.setExpression("execution(* *s*(..))");
+        assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+    }
+
+    @Test
+    void nameMatchFalse(){
+        pointcut.setExpression("execution(* adasdasd(..))");
+        assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isFalse();
+    }
+
+    @Test
+    void packageExactMatch1(){
+        pointcut.setExpression("execution(* ysh.aop.member.MemberServiceImpl.hello(..))");
+        assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+    }
+
+    @Test
+    void packageExactMatch2(){
+        pointcut.setExpression("execution(* ysh.aop.member.*.*(..))");
+        assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+    }
+
+    @Test
+    void packageMatchSubPackage1(){
+        pointcut.setExpression("execution(* ysh.aop.member..*.*(..))");
+        assertThat(pointcut.matches(helloMethod, MemberServiceImpl.class)).isTrue();
+    }
 }
