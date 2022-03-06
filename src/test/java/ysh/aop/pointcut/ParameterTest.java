@@ -26,10 +26,17 @@ public class ParameterTest {
     static class ParameterAspect{
         @Pointcut("execution(* ysh.aop.member..*.*(..))")
         private void allMember(){}
+
         @Around("allMember()")
         public Object logArgs1(ProceedingJoinPoint joinPoint) throws Throwable {
             Object arg1 = joinPoint.getArgs()[0];
-            log.info("[logArgs]{}, args={}", joinPoint.getSignature(), arg1);
+            log.info("[logArgs1]{}, args={}", joinPoint.getSignature(), arg1);
+            return joinPoint.proceed();
+        }
+
+        @Around("allMember() && args(arg, ..)")
+        public Object logArgs2(ProceedingJoinPoint joinPoint, Object arg) throws Throwable {
+            log.info("[logArgs2]{}, args={}", joinPoint.getSignature(), arg);
             return joinPoint.proceed();
         }
     }
