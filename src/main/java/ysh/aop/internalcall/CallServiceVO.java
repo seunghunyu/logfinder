@@ -11,7 +11,7 @@ public class CallServiceVO {
         internal();//내부 호출
     }
 
-    private void internal() {
+    public void internal() {
         log.info("call internal");
     }
 
