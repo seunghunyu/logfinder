@@ -7,6 +7,8 @@ import ysh.aop.order.aop.member.MemberService;
 import ysh.aop.order.aop.member.MemberServiceImpl;
 import ysh.proxy.proxyfactory.ProxyFactoryTest;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 @Slf4j
 public class ProxyCastingTest {
     @Test
@@ -16,7 +18,26 @@ public class ProxyCastingTest {
         proxyFactory.setProxyTargetClass(false); //jdk 동적 프록시
 
         //프록시를 인터페이스로 캐스팅 성공
-        MemberService proxy = (MemberService) proxyFactory.getProxy();
+        MemberService memberServiceProxy = (MemberService) proxyFactory.getProxy();
+
+        //JDK 동적 프록시를 구현 클래스로 캐스틩 시도 실패, ClassCastException 예외 발생
+        assertThrows(ClassCastException.class, () ->{
+            MemberServiceImpl castingMemberService = (MemberServiceImpl) memberServiceProxy;
+        });
+
+    }
+
+    @Test
+    void cglibProxy(){
+        MemberServiceImpl target = new MemberServiceImpl();
+        ProxyFactory proxyFactory = new ProxyFactory(target);
+        proxyFactory.setProxyTargetClass(true); //cglib 동적 프록시
+
+        //프록시를 인터페이스로 캐스팅 성공
+        MemberService memberServiceProxy = (MemberService) proxyFactory.getProxy();
+
+        //CGLIB 프록시를 구현 클래스로 캐스틩 시도 성공
+        MemberServiceImpl castingMemberService = (MemberServiceImpl) memberServiceProxy;
 
     }
 
